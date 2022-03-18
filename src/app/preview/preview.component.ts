@@ -64,84 +64,6 @@ export class PreviewComponent implements OnInit {
   // @Output() isClosed = new EventEmitter<boolean>();
 
   constructor(private _helper: HelperService, private modalService: NgbModal) {}
-  // ngOnInit(): void {
-  //   const sampleDocPreviewConfig: DocPreviewConfig = {
-  //     zoomIn: true,
-  //     zoomOut: true,
-  //     rotate: true,
-  //     pageIndicator: true,
-  //     download: true,
-  //     openModal: true,
-  //     close: true,
-  //     docScreenWidth: '100%',
-  //   };
-  //   if (!this.docPreviewConfig) {
-  //     this.docPreviewConfig = sampleDocPreviewConfig;
-  //   } else {
-  //     Object.keys(sampleDocPreviewConfig).forEach((key: any) => {
-  //       if (this.docPreviewConfig[key] === undefined) {
-  //         this.docPreviewConfig[key] = true;
-  //       }
-  //       if (typeof this.docPreviewConfig[key] !== 'boolean') {
-  //         this.docPreviewConfig[key] = false;
-  //       }
-  //     });
-  //   }
-  //   this.documentTypeDeterminer();
-  // }
-
-  // documentTypeDeterminer() {
-  //   if (this.fileName || this.documentURL) {
-  //     if (
-  //       this._helper.fileTypeChecker(this.fileName) === this.pdfType ||
-  //       this._helper.fileTypeChecker(this.documentURL) === this.pdfType
-  //     ) {
-  //       this.documentType = this.pdfType;
-  //       this.archivedFileTypeChecker(this.documentURL);
-  //     } else if (
-  //       this._helper.fileTypeChecker(this.fileName) === this.imageType ||
-  //       this._helper.fileTypeChecker(this.documentURL) === this.imageType
-  //     ) {
-  //       this.documentType = this.imageType;
-  //       this.archivedFileTypeChecker(this.documentURL);
-  //     } else {
-  //       this.archivedFileTypeChecker(this.documentURL);
-  //       setTimeout(() => {
-  //         if (this.contentType !== undefined || this.contentType !== '') {
-  //           if (this.contentType.split('/').includes(this.pdfType)) {
-  //             this.documentType = this.pdfType;
-  //           } else if (this.contentType.split('/').includes(this.imageType)) {
-  //             this.documentType = this.imageType;
-  //           } else {
-  //             this.documentType = '';
-  //             this.isArchieved = true;
-  //           }
-  //         }
-  //       }, 300);
-  //     }
-  //   } else {
-  //     this.documentType = '';
-  //   }
-  // }
-
-  // async archivedFileTypeChecker(url: string) {
-  //   this.contentType = '';
-  //   let isBlobViewed = false;
-  //   if (url) {
-  //     let response = await fetch(url);
-  //     this.contentType = response.headers.get('Content-Type');
-  //     if (this.contentType === null || this.contentType === 'text/html') {
-  //       this.isArchieved = true;
-  //       if (!isBlobViewed && response.status === 200) {
-  //         isBlobViewed = true;
-  //         // this.closeModal();
-  //         // this._commonService.getFileFromURLInNewTab(url);
-  //       }
-  //     }
-  //   }
-  // }
-
-  // --------------------------------------new code ------------------------------------------
 
   ngOnChanges(): void {
     if (this.documentType) {
@@ -167,7 +89,7 @@ export class PreviewComponent implements OnInit {
       openModal: true,
       close: true,
       docScreenWidth: '100%',
-      modalSize: 'sm',
+      modalSize: 'lg',
       customStyle: '',
     };
     if (!this.docPreviewConfig) {
@@ -193,7 +115,7 @@ export class PreviewComponent implements OnInit {
 
   async documentTypeDeterminer() {
     this.documentType = '';
-    const fileTypeOrURL = this.fileName || this.documentURL;
+    const fileTypeOrURL = this.documentURL || this.fileName;
     const fileTpe = this._helper.fileTypeChecker(fileTypeOrURL);
     if (fileTpe) {
       if (fileTpe === this.pdfType) {
@@ -229,7 +151,7 @@ export class PreviewComponent implements OnInit {
     if (url) {
       let response = await fetch(url);
       this.contentType = response.headers.get('Content-Type');
-      if (this.contentType === null || this.contentType === 'text/html') {
+      if (this.contentType === null || this.contentType.includes('text/html')) {
         this.isArchieved = true;
         if (!isBlobViewed && response.status === 200) {
           isBlobViewed = true;
@@ -240,8 +162,6 @@ export class PreviewComponent implements OnInit {
       }
     }
   }
-
-  // ends here
 
   closeModal() {
     this.inputModelRef && this.inputModelRef.close();

@@ -12,6 +12,7 @@ export class AppComponent {
     close: false,
     customStyle: 'customClass',
     modalSize: 'lg',
+    docScreenWidth: '100%',
   };
 
   //1. pdf url with .pdf extension
@@ -26,11 +27,11 @@ export class AppComponent {
   //   'https://www.interactivesearchmarketing.com/wp-content/uploads/2014/06/png-vs-jpeg.jpg';
 
   //2.  image url with no extension
-  url =
-    'https://proclaim-api-prod.mediassist.in/download/5386/mediassistindia.com/6820313e-b526-45f2-93fe-47ec9aaae91e';
+  // url =
+  //   'https://proclaim-api-prod.mediassist.in/download/5386/mediassistindia.com/6820313e-b526-45f2-93fe-47ec9aaae91e';
 
   // test on archieved url which can be vioew as blob
-  // url=
+  url = 'https://stg-yellow.ihxpro.in/swagger/index.html';
 
   // Not supported URL
   // url =

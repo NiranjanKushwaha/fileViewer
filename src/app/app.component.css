@@ -1,4 +1,10 @@
 .customClass {
   width: 500px;
   height: 1000px;
+  background-color: aqua;
+}
+
+.container-fluid {
+  margin: 0 auto;
+  padding: 0;
 }
