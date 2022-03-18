@@ -8,4 +8,5 @@ export interface DocPreviewConfig {
   close?: boolean;
   docScreenWidth?: string;
   modalSize?: string;
+  customStyle?: string;
 }

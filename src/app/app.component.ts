@@ -10,6 +10,8 @@ export class AppComponent {
   title = 'viewer';
   docPreviewConfig: DocPreviewConfig = {
     close: false,
+    customStyle: 'customClass',
+    modalSize: 'lg',
   };
 
   //1. pdf url with .pdf extension

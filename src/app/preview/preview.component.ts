@@ -167,17 +167,25 @@ export class PreviewComponent implements OnInit {
       openModal: true,
       close: true,
       docScreenWidth: '100%',
-      modalSize: 'lg',
+      modalSize: 'sm',
+      customStyle: '',
     };
     if (!this.docPreviewConfig) {
       this.docPreviewConfig = sampleDocPreviewConfig;
     } else {
       Object.keys(sampleDocPreviewConfig).forEach((key) => {
-        if (this.docPreviewConfig[key] === undefined) {
+        if (
+          this.docPreviewConfig[key] === undefined &&
+          typeof sampleDocPreviewConfig[key] === CommonConstant.BOOLEAN
+        ) {
           this.docPreviewConfig[key] = true;
         }
-        if (typeof this.docPreviewConfig[key] !== CommonConstant.BOOLEAN) {
-          this.docPreviewConfig[key] = false;
+        if (
+          this.docPreviewConfig[key] === undefined &&
+          typeof this.docPreviewConfig[key] !== CommonConstant.BOOLEAN
+        ) {
+          // this.docPreviewConfig[key] = false;
+          this.docPreviewConfig[key] = sampleDocPreviewConfig[key];
         }
       });
     }
@@ -225,8 +233,9 @@ export class PreviewComponent implements OnInit {
         this.isArchieved = true;
         if (!isBlobViewed && response.status === 200) {
           isBlobViewed = true;
-          // this.onCloseModal();
+          this.closeModal();
           // this._commonService.getFileFromURLInNewTab(url);
+          this._helper.openBlobInNewWindow(url);
         }
       }
     }
@@ -303,9 +312,10 @@ export class PreviewComponent implements OnInit {
   viewInFullScreen() {
     // this.isModalView = true;
     this.modalRef = this.modalService.open(PreviewComponent, {
-      size: 'lg',
+      size: this.docPreviewConfig.modalSize || CommonConstant.LARGEMODAL,
       keyboard: false,
       backdrop: false,
+      windowClass: this.docPreviewConfig?.customStyle,
     });
     this.modalRef.componentInstance.documentURL = this.documentURL;
     this.modalRef.componentInstance.inputModelRef = this.modalRef;

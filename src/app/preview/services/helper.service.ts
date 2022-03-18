@@ -77,4 +77,23 @@ export class HelperService {
   //   window.open(blobUrl, "_blank");
   //   window.URL.revokeObjectURL(blobUrl);
   // }
+
+  openBlobInNewWindow(url: string) {
+    if (url) {
+      fetch(url, {
+        headers: new Headers({
+          Origin: location.origin,
+        }),
+        mode: 'cors',
+      })
+        .then((response) => response.blob())
+        .then((blob) => {
+          let blobUrl = window.URL.createObjectURL(blob);
+          window.open(blobUrl, '_blank');
+        })
+        .catch((e) => {
+          console.log('Something went wrong');
+        });
+    }
+  }
 }
