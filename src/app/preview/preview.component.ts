@@ -1,4 +1,12 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { DocPreviewConfig } from './docConfig';
 import { HelperService } from './services/helper.service';
@@ -49,7 +57,8 @@ export class PreviewComponent implements OnInit {
   // isModalView:boolean=false;
 
   @ViewChild('view_img') view_img: ElementRef;
-  // @Output() inputModelRef: NgbModalRef;
+  @Output() inputModelRef: NgbModalRef;
+  // @Output() isClosed = new EventEmitter<boolean>();
 
   constructor(private _helper: HelperService, private modalService: NgbModal) {}
   ngOnInit(): void {
@@ -129,11 +138,11 @@ export class PreviewComponent implements OnInit {
   //   }
   // }
 
-  // onCloseModal() {
-  //   this.inputModelRef && this.inputModelRef.close();
-  //   this.closed.emit(true);
-  //   this.isModalView = false;
-  // }
+  onCloseModal() {
+    this.inputModelRef && this.inputModelRef.close();
+    // this.isClosed.emit(true);
+    // this.isModalView = false;
+  }
 
   downloadFile() {
     this._helper.downloadResource(this.documentURL, this.fileName);
