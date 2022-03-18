@@ -3,12 +3,13 @@
   [ngStyle]="{ width: docPreviewConfig.docScreenWidth }"
 >
   <div class="action_btns d-flex justify-content-center">
-    <button class="btn-outline-info btn download_btn">
+    <button class="btn-outline-info btn download_btn" (click)="downloadFile()">
       <i class="fa fa-download" aria-hidden="true"></i>
     </button>
     <button class="zoomIn btn btn-outline-info">
       <i class="fa fa-search-plus" aria-hidden="true"></i>
     </button>
+
     <button class="current_zoom_level btn btn-outline-info">
       <span> {{ currentZoomLevel }} </span>
     </button>

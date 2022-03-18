@@ -29,7 +29,7 @@ export class PreviewComponent implements OnInit {
     };
     if (!this.docPreviewConfig) {
       this.docPreviewConfig = sampleDocPreviewConfig;
-      // } else {
+    } else {
       //   Object.keys(sampleDocPreviewConfig).forEach((key:any) => {
       //     if (this.docPreviewConfig[key] === undefined) {
       //       this.docPreviewConfig[key] = true;
@@ -38,9 +38,8 @@ export class PreviewComponent implements OnInit {
       //       this.docPreviewConfig[key] = false;
       //     }
       //   });
-      // }
-      this.documentTypeDeterminer();
     }
+    this.documentTypeDeterminer();
   }
 
   documentTypeDeterminer() {
@@ -99,4 +98,8 @@ export class PreviewComponent implements OnInit {
   //   this.closed.emit(true);
   //   this.isModalView = false;
   // }
+
+  downloadFile() {
+    this._helper.downloadResource(this.documentURL, this.fileName);
+  }
 }
