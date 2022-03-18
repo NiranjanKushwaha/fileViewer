@@ -9,9 +9,38 @@ import { HelperService } from './services/helper.service';
   styleUrls: ['./preview.component.css'],
 })
 export class PreviewComponent implements OnInit {
-  @Input() documentURL: string;
-  @Input() fileName: string;
-  @Input() docPreviewConfig: DocPreviewConfig;
+  private _docPreviewConfig: DocPreviewConfig;
+  private _documentURL: string;
+  private _fileName: string;
+  get docPreviewConfig(): DocPreviewConfig {
+    return this._docPreviewConfig;
+  }
+  @Input() set docPreviewConfig(value: DocPreviewConfig) {
+    if (value !== this._docPreviewConfig) {
+      this._docPreviewConfig = value;
+    }
+  }
+
+  get documentURL(): string {
+    return this._documentURL;
+  }
+
+  @Input() set documentURL(value: string) {
+    if (value !== this._documentURL) {
+      this._documentURL = value;
+    }
+  }
+
+  get fileName(): string {
+    return this._fileName;
+  }
+
+  @Input() set fileName(value: string) {
+    if (value !== this._fileName) {
+      this._fileName = value;
+    }
+  }
+
   documentType: string;
   contentType: string;
   zoom_in: number = 1;
@@ -20,6 +49,7 @@ export class PreviewComponent implements OnInit {
   // isModalView:boolean=false;
 
   @ViewChild('view_img') view_img: ElementRef;
+  // @Output() inputModelRef: NgbModalRef;
 
   constructor(private _helper: HelperService, private modalService: NgbModal) {}
   ngOnInit(): void {
@@ -36,14 +66,14 @@ export class PreviewComponent implements OnInit {
     if (!this.docPreviewConfig) {
       this.docPreviewConfig = sampleDocPreviewConfig;
     } else {
-      //   Object.keys(sampleDocPreviewConfig).forEach((key:any) => {
-      //     if (this.docPreviewConfig[key] === undefined) {
-      //       this.docPreviewConfig[key] = true;
-      //     }
-      //     if (typeof this.docPreviewConfig[key] !== "boolean") {
-      //       this.docPreviewConfig[key] = false;
-      //     }
-      //   });
+      Object.keys(sampleDocPreviewConfig).forEach((key: any) => {
+        if (this.docPreviewConfig[key] === undefined) {
+          this.docPreviewConfig[key] = true;
+        }
+        if (typeof this.docPreviewConfig[key] !== 'boolean') {
+          this.docPreviewConfig[key] = false;
+        }
+      });
     }
     this.documentTypeDeterminer();
   }
@@ -164,6 +194,12 @@ export class PreviewComponent implements OnInit {
         'rotate(' + this.rotation + 'deg)';
     }
   }
+
+  // onCloseModal() {
+  //   this.inputModelRef && this.inputModelRef.close();
+  //   this.closed.emit(true);
+  //   this.isModalView = false;
+  // }
 
   viewInFullScreen() {
     // this.isModalView = true;
