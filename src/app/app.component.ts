@@ -20,10 +20,10 @@ export class AppComponent {
   //   'https://proclaim-api-prod.mediassist.in/download/5386/mediassistindia.com/613effb6-b7a5-4924-b48e-bfb4fac8fb80';
 
   //1. image url with .jpg extension
-  url =
-    'https://www.interactivesearchmarketing.com/wp-content/uploads/2014/06/png-vs-jpeg.jpg';
+  // url =
+  //   'https://www.interactivesearchmarketing.com/wp-content/uploads/2014/06/png-vs-jpeg.jpg';
 
   //2.  image url with no extension
-  // url =
-  //   'https://proclaim-api-prod.mediassist.in/download/5386/mediassistindia.com/6820313e-b526-45f2-93fe-47ec9aaae91e';
+  url =
+    'https://proclaim-api-prod.mediassist.in/download/5386/mediassistindia.com/6820313e-b526-45f2-93fe-47ec9aaae91e';
 }

@@ -10,7 +10,7 @@ import {
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { DocPreviewConfig } from './docConfig';
 import { HelperService } from './services/helper.service';
-
+import { CommonConstant } from './constants/Common.constants';
 @Component({
   selector: 'app-preview',
   templateUrl: './preview.component.html',
@@ -54,6 +54,9 @@ export class PreviewComponent implements OnInit {
   zoom_in: number = 1;
   rotation: number = 0;
   modalRef: NgbModalRef;
+  isArchieved: boolean = false;
+  pdfType: string = CommonConstant.PDFTYPE;
+  imageType: string = CommonConstant.IMAGETYPE;
   // isModalView:boolean=false;
 
   @ViewChild('view_img') view_img: ElementRef;
@@ -61,8 +64,101 @@ export class PreviewComponent implements OnInit {
   // @Output() isClosed = new EventEmitter<boolean>();
 
   constructor(private _helper: HelperService, private modalService: NgbModal) {}
+  // ngOnInit(): void {
+  //   const sampleDocPreviewConfig: DocPreviewConfig = {
+  //     zoomIn: true,
+  //     zoomOut: true,
+  //     rotate: true,
+  //     pageIndicator: true,
+  //     download: true,
+  //     openModal: true,
+  //     close: true,
+  //     docScreenWidth: '100%',
+  //   };
+  //   if (!this.docPreviewConfig) {
+  //     this.docPreviewConfig = sampleDocPreviewConfig;
+  //   } else {
+  //     Object.keys(sampleDocPreviewConfig).forEach((key: any) => {
+  //       if (this.docPreviewConfig[key] === undefined) {
+  //         this.docPreviewConfig[key] = true;
+  //       }
+  //       if (typeof this.docPreviewConfig[key] !== 'boolean') {
+  //         this.docPreviewConfig[key] = false;
+  //       }
+  //     });
+  //   }
+  //   this.documentTypeDeterminer();
+  // }
+
+  // documentTypeDeterminer() {
+  //   if (this.fileName || this.documentURL) {
+  //     if (
+  //       this._helper.fileTypeChecker(this.fileName) === this.pdfType ||
+  //       this._helper.fileTypeChecker(this.documentURL) === this.pdfType
+  //     ) {
+  //       this.documentType = this.pdfType;
+  //       this.archivedFileTypeChecker(this.documentURL);
+  //     } else if (
+  //       this._helper.fileTypeChecker(this.fileName) === this.imageType ||
+  //       this._helper.fileTypeChecker(this.documentURL) === this.imageType
+  //     ) {
+  //       this.documentType = this.imageType;
+  //       this.archivedFileTypeChecker(this.documentURL);
+  //     } else {
+  //       this.archivedFileTypeChecker(this.documentURL);
+  //       setTimeout(() => {
+  //         if (this.contentType !== undefined || this.contentType !== '') {
+  //           if (this.contentType.split('/').includes(this.pdfType)) {
+  //             this.documentType = this.pdfType;
+  //           } else if (this.contentType.split('/').includes(this.imageType)) {
+  //             this.documentType = this.imageType;
+  //           } else {
+  //             this.documentType = '';
+  //             this.isArchieved = true;
+  //           }
+  //         }
+  //       }, 300);
+  //     }
+  //   } else {
+  //     this.documentType = '';
+  //   }
+  // }
+
+  // async archivedFileTypeChecker(url: string) {
+  //   this.contentType = '';
+  //   let isBlobViewed = false;
+  //   if (url) {
+  //     let response = await fetch(url);
+  //     this.contentType = response.headers.get('Content-Type');
+  //     if (this.contentType === null || this.contentType === 'text/html') {
+  //       this.isArchieved = true;
+  //       if (!isBlobViewed && response.status === 200) {
+  //         isBlobViewed = true;
+  //         // this.closeModal();
+  //         // this._commonService.getFileFromURLInNewTab(url);
+  //       }
+  //     }
+  //   }
+  // }
+
+  // --------------------------------------new code ------------------------------------------
+
+  ngOnChanges(): void {
+    if (this.documentType) {
+      this.zoom_in = 1;
+      this.rotation = 0;
+      this.documentTypeDeterminer();
+      this.defaultDocumentIconsSetting();
+    }
+  }
+
   ngOnInit(): void {
-    const sampleDocPreviewConfig: DocPreviewConfig = {
+    this.defaultDocumentIconsSetting();
+    this.documentTypeDeterminer();
+  }
+
+  defaultDocumentIconsSetting() {
+    const sampleDocPreviewConfig = {
       zoomIn: true,
       zoomOut: true,
       rotate: true,
@@ -71,74 +167,74 @@ export class PreviewComponent implements OnInit {
       openModal: true,
       close: true,
       docScreenWidth: '100%',
+      modalSize: 'lg',
     };
     if (!this.docPreviewConfig) {
       this.docPreviewConfig = sampleDocPreviewConfig;
     } else {
-      Object.keys(sampleDocPreviewConfig).forEach((key: any) => {
+      Object.keys(sampleDocPreviewConfig).forEach((key) => {
         if (this.docPreviewConfig[key] === undefined) {
           this.docPreviewConfig[key] = true;
         }
-        if (typeof this.docPreviewConfig[key] !== 'boolean') {
+        if (typeof this.docPreviewConfig[key] !== CommonConstant.BOOLEAN) {
           this.docPreviewConfig[key] = false;
         }
       });
     }
-    this.documentTypeDeterminer();
   }
 
-  documentTypeDeterminer() {
-    if (this.fileName || this.documentURL) {
-      if (
-        this._helper.fileTypeChecker(this.fileName) === 'pdf' ||
-        this._helper.fileTypeChecker(this.documentURL) === 'pdf'
-      ) {
-        this.documentType = 'pdf';
-        // this.archivedFileTypeChecker(this.documentURL);
-      } else if (
-        this._helper.fileTypeChecker(this.fileName) === 'image' ||
-        this._helper.fileTypeChecker(this.documentURL) === 'image'
-      ) {
-        this.documentType = 'image';
-        // this.archivedFileTypeChecker(this.documentURL);
-      } else {
-        // this.archivedFileTypeChecker(this.documentURL);
-        setTimeout(() => {
-          if (this.contentType !== undefined || this.contentType !== '') {
-            if (this.contentType.split('/').includes('pdf')) {
-              this.documentType = 'pdf';
-            } else if (this.contentType.split('/').includes('image')) {
-              this.documentType = 'image';
-            } else {
-              this.documentType = '';
-              // this.isArchieved = true;
-            }
-          }
-        }, 300);
+  async documentTypeDeterminer() {
+    this.documentType = '';
+    const fileTypeOrURL = this.fileName || this.documentURL;
+    const fileTpe = this._helper.fileTypeChecker(fileTypeOrURL);
+    if (fileTpe) {
+      if (fileTpe === this.pdfType) {
+        this.documentType = this.pdfType;
+        await this.archivedFileTypeChecker(this.documentURL);
+      }
+      if (fileTpe === this.imageType) {
+        this.documentType = this.imageType;
+        await this.archivedFileTypeChecker(this.documentURL);
       }
     } else {
-      this.documentType = '';
+      await this.archivedFileTypeChecker(this.documentURL);
+      this.fileTypeCheckerOnContentType();
     }
   }
 
-  // async archivedFileTypeChecker(url: string) {
-  //   this.contentType = "";
-  //   let isBlobViewed = false;
-  //   if (url) {
-  //     let response = await fetch(url);
-  //     this.contentType = response.headers.get("Content-Type");
-  //     if (this.contentType === null || this.contentType === "text/html") {
-  //       this.isArchieved = true;
-  //       if (!isBlobViewed && response.status === 200) {
-  //         isBlobViewed = true;
-  //         this.onCloseModal();
-  //         // this._commonService.getFileFromURLInNewTab(url);
-  //       }
-  //     }
-  //   }
-  // }
+  fileTypeCheckerOnContentType() {
+    if (this.contentType !== undefined || this.contentType !== '') {
+      if (this.contentType.split('/').includes(this.pdfType)) {
+        this.documentType = this.pdfType;
+      } else if (this.contentType.split('/').includes(this.imageType)) {
+        this.documentType = this.imageType;
+      } else {
+        this.documentType = '';
+        this.isArchieved = true;
+      }
+    }
+  }
 
-  onCloseModal() {
+  async archivedFileTypeChecker(url: string) {
+    this.contentType = '';
+    let isBlobViewed = false;
+    if (url) {
+      let response = await fetch(url);
+      this.contentType = response.headers.get('Content-Type');
+      if (this.contentType === null || this.contentType === 'text/html') {
+        this.isArchieved = true;
+        if (!isBlobViewed && response.status === 200) {
+          isBlobViewed = true;
+          // this.onCloseModal();
+          // this._commonService.getFileFromURLInNewTab(url);
+        }
+      }
+    }
+  }
+
+  // ends here
+
+  closeModal() {
     this.inputModelRef && this.inputModelRef.close();
     // this.isClosed.emit(true);
     // this.isModalView = false;
@@ -148,7 +244,7 @@ export class PreviewComponent implements OnInit {
     this._helper.downloadResource(this.documentURL, this.fileName);
   }
   upDateZoom(zoomType: string) {
-    if (this.documentType === 'pdf') {
+    if (this.documentType === this.pdfType) {
       switch (zoomType) {
         case 'decrement':
           if (this.zoom_in) {
@@ -164,7 +260,7 @@ export class PreviewComponent implements OnInit {
           break;
       }
     }
-    if (this.documentType === 'image') {
+    if (this.documentType === this.imageType) {
       const currWidth = this.view_img.nativeElement.clientWidth;
       switch (zoomType) {
         case 'decrement':
@@ -186,10 +282,10 @@ export class PreviewComponent implements OnInit {
   }
 
   rotateDoc() {
-    if (this.documentType === 'pdf') {
+    if (this.documentType === this.pdfType) {
       this.rotation += 90;
     }
-    if (this.documentType === 'image') {
+    if (this.documentType === this.imageType) {
       this.rotation += 90;
       this.view_img.nativeElement.style.webkitTransform =
         'rotate(' + this.rotation + 'deg)';
@@ -203,12 +299,6 @@ export class PreviewComponent implements OnInit {
         'rotate(' + this.rotation + 'deg)';
     }
   }
-
-  // onCloseModal() {
-  //   this.inputModelRef && this.inputModelRef.close();
-  //   this.closed.emit(true);
-  //   this.isModalView = false;
-  // }
 
   viewInFullScreen() {
     // this.isModalView = true;
