@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { DocPreviewConfig } from './docConfig';
 import { HelperService } from './services/helper.service';
 
@@ -13,7 +13,9 @@ export class PreviewComponent implements OnInit {
   @Input() docPreviewConfig: DocPreviewConfig;
   documentType: string;
   contentType: string;
-  currentZoomLevel: number = 1;
+  zoom_in: number = 1;
+
+  @ViewChild('view_img') view_img: ElementRef;
 
   constructor(private _helper: HelperService) {}
   ngOnInit(): void {
@@ -101,5 +103,42 @@ export class PreviewComponent implements OnInit {
 
   downloadFile() {
     this._helper.downloadResource(this.documentURL, this.fileName);
+  }
+  upDateZoom(zoomType: string) {
+    if (this.documentType === 'pdf') {
+      switch (zoomType) {
+        case 'decrement':
+          if (this.zoom_in) {
+            this.zoom_in = this.zoom_in - 0.5;
+          }
+          break;
+        case 'increment':
+          this.zoom_in = this.zoom_in + 0.5;
+          break;
+
+        default:
+          this.zoom_in = 1;
+          break;
+      }
+    }
+    if (this.documentType === 'image') {
+      const currWidth = this.view_img.nativeElement.clientWidth;
+      switch (zoomType) {
+        case 'decrement':
+          if (this.zoom_in) {
+            this.zoom_in = this.zoom_in - 0.5;
+            this.view_img.nativeElement.style.width = currWidth - 150 + 'px';
+          }
+          break;
+        case 'increment':
+          this.zoom_in = this.zoom_in + 0.5;
+          this.view_img.nativeElement.style.width = currWidth + 150 + 'px';
+          break;
+
+        default:
+          this.zoom_in = 1;
+          break;
+      }
+    }
   }
 }

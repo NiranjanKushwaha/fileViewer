@@ -6,14 +6,20 @@
     <button class="btn-outline-info btn download_btn" (click)="downloadFile()">
       <i class="fa fa-download" aria-hidden="true"></i>
     </button>
-    <button class="zoomIn btn btn-outline-info">
+    <button
+      class="zoomIn btn btn-outline-info"
+      (click)="upDateZoom('increment')"
+    >
       <i class="fa fa-search-plus" aria-hidden="true"></i>
     </button>
 
     <button class="current_zoom_level btn btn-outline-info">
-      <span> {{ currentZoomLevel }} </span>
+      <span> {{ zoom_in }} </span>
     </button>
-    <button class="zoomOut btn btn-outline-info">
+    <button
+      class="zoomOut btn btn-outline-info"
+      (click)="upDateZoom('decrement')"
+    >
       <i class="fa fa-search-minus" aria-hidden="true"></i>
     </button>
     <button class="rotate btn btn-outline-info">
