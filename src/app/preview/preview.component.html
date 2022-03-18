@@ -3,30 +3,53 @@
   [ngStyle]="{ width: docPreviewConfig.docScreenWidth }"
 >
   <div class="action_btns d-flex justify-content-center">
-    <button class="btn-outline-info btn download_btn" (click)="downloadFile()">
+    <button
+      class="btn-outline-info btn download_btn"
+      (click)="downloadFile()"
+      *ngIf="docPreviewConfig.download"
+    >
       <i class="fa fa-download" aria-hidden="true"></i>
     </button>
     <button
       class="zoomIn btn btn-outline-info"
       (click)="upDateZoom('increment')"
+      *ngIf="docPreviewConfig.zoomIn"
     >
       <i class="fa fa-search-plus" aria-hidden="true"></i>
     </button>
 
-    <button class="current_zoom_level btn btn-outline-info">
+    <button
+      class="current_zoom_level btn btn-outline-info"
+      *ngIf="docPreviewConfig.pageIndicator"
+    >
       <span> {{ zoom_in }} </span>
     </button>
     <button
       class="zoomOut btn btn-outline-info"
       (click)="upDateZoom('decrement')"
+      *ngIf="docPreviewConfig.zoomOut"
     >
       <i class="fa fa-search-minus" aria-hidden="true"></i>
     </button>
-    <button class="rotate btn btn-outline-info" (click)="rotateDoc()">
+    <button
+      class="rotate btn btn-outline-info"
+      (click)="rotateDoc()"
+      *ngIf="docPreviewConfig.rotate"
+    >
       <i class="fa fa-refresh" aria-hidden="true"></i>
     </button>
-    <button class="btn-outline-info btn fullScreen">
+    <button
+      class="btn-outline-info btn fullScreen"
+      (click)="viewInFullScreen()"
+      *ngIf="docPreviewConfig.openModal"
+    >
       <i class="fa fa-arrows-alt" aria-hidden="true"></i>
+    </button>
+    <button
+      class="btn close_btn btn-outline-info"
+      *ngIf="docPreviewConfig.close"
+    >
+      <i class="fa fa-times" aria-hidden="true"></i>
     </button>
   </div>
   <div class="pdf_type" *ngIf="documentType === 'pdf'">

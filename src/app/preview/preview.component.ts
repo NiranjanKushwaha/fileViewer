@@ -1,4 +1,5 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { DocPreviewConfig } from './docConfig';
 import { HelperService } from './services/helper.service';
 
@@ -15,10 +16,12 @@ export class PreviewComponent implements OnInit {
   contentType: string;
   zoom_in: number = 1;
   rotation: number = 0;
+  modalRef: NgbModalRef;
+  // isModalView:boolean=false;
 
   @ViewChild('view_img') view_img: ElementRef;
 
-  constructor(private _helper: HelperService) {}
+  constructor(private _helper: HelperService, private modalService: NgbModal) {}
   ngOnInit(): void {
     const sampleDocPreviewConfig: DocPreviewConfig = {
       zoomIn: true,
@@ -160,5 +163,20 @@ export class PreviewComponent implements OnInit {
       this.view_img.nativeElement.style.transform =
         'rotate(' + this.rotation + 'deg)';
     }
+  }
+
+  viewInFullScreen() {
+    // this.isModalView = true;
+    this.modalRef = this.modalService.open(PreviewComponent, {
+      size: 'lg',
+      keyboard: false,
+      backdrop: false,
+    });
+    this.modalRef.componentInstance.documentURL = this.documentURL;
+    this.modalRef.componentInstance.inputModelRef = this.modalRef;
+    this.modalRef.componentInstance.fileName = this.fileName;
+    this.modalRef.componentInstance.docPreviewConfig = {
+      openModal: false,
+    };
   }
 }
