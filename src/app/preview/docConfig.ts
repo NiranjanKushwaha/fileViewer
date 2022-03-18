@@ -6,4 +6,5 @@ export interface DocPreviewConfig {
   download?: boolean;
   openModal?: boolean;
   close?: boolean;
+  docScreenWidth?: string;
 }

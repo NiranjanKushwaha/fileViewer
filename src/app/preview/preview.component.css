@@ -1,0 +1,11 @@
+.action_btns button {
+  margin: 0.5rem;
+  width: 2.5rem;
+  height: 2.5rem;
+}
+
+.current_zoom_level {
+  width: 3.5rem !important;
+  height: 2.5rem;
+  text-align: center;
+}
