@@ -28,4 +28,14 @@ export class AppComponent {
   //2.  image url with no extension
   url =
     'https://proclaim-api-prod.mediassist.in/download/5386/mediassistindia.com/6820313e-b526-45f2-93fe-47ec9aaae91e';
+
+  // test on archieved url which can be vioew as blob
+  // url=
+
+  // Not supported URL
+  // url =
+  //   'https://proclaim-api-prod.mediassist.in/download/5386/mediassistindia.com/41076D81-328D-40C7-AD3F-B45A6CBCA4B3.jpg';
+
+  // No document sending
+  // url = '';
 }
