@@ -8,8 +8,8 @@ import { Component } from '@angular/core';
 export class AppComponent {
   title = 'viewer';
   // pdf url
-  // url = 'http://www.africau.edu/images/default/sample.pdf';
+  url = 'http://www.africau.edu/images/default/sample.pdf';
   // image url
-  url =
-    'https://www.interactivesearchmarketing.com/wp-content/uploads/2014/06/png-vs-jpeg.jpg';
+  // url =
+  //   'https://www.interactivesearchmarketing.com/wp-content/uploads/2014/06/png-vs-jpeg.jpg';
 }

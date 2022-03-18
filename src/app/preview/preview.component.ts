@@ -14,6 +14,7 @@ export class PreviewComponent implements OnInit {
   documentType: string;
   contentType: string;
   zoom_in: number = 1;
+  rotation: number = 0;
 
   @ViewChild('view_img') view_img: ElementRef;
 
@@ -139,6 +140,25 @@ export class PreviewComponent implements OnInit {
           this.zoom_in = 1;
           break;
       }
+    }
+  }
+
+  rotateDoc() {
+    if (this.documentType === 'pdf') {
+      this.rotation += 90;
+    }
+    if (this.documentType === 'image') {
+      this.rotation += 90;
+      this.view_img.nativeElement.style.webkitTransform =
+        'rotate(' + this.rotation + 'deg)';
+      this.view_img.nativeElement.style.mozTransform =
+        'rotate(' + this.rotation + 'deg)';
+      this.view_img.nativeElement.style.msTransform =
+        'rotate(' + this.rotation + 'deg)';
+      this.view_img.nativeElement.style.oTransform =
+        'rotate(' + this.rotation + 'deg)';
+      this.view_img.nativeElement.style.transform =
+        'rotate(' + this.rotation + 'deg)';
     }
   }
 }
