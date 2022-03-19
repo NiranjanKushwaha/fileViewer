@@ -19,8 +19,8 @@ export class AppComponent {
   // url = 'http://www.africau.edu/images/default/sample.pdf';
 
   // 2. pdf url with no extension
-  // url =
-  //   'https://proclaim-api-prod.mediassist.in/download/5386/mediassistindia.com/613effb6-b7a5-4924-b48e-bfb4fac8fb80';
+  url =
+    'https://proclaim-api-prod.mediassist.in/download/5386/mediassistindia.com/613effb6-b7a5-4924-b48e-bfb4fac8fb80';
 
   //1. image url with .jpg extension
   // url =
@@ -31,7 +31,7 @@ export class AppComponent {
   //   'https://proclaim-api-prod.mediassist.in/download/5386/mediassistindia.com/6820313e-b526-45f2-93fe-47ec9aaae91e';
 
   // test on archieved url which can be vioew as blob
-  url = 'https://stg-yellow.ihxpro.in/swagger/index.html';
+  // url = 'https://stg-yellow.ihxpro.in/swagger/index.html';
 
   // Not supported URL
   // url =
